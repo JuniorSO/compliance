@@ -11,6 +11,8 @@ import org.bson.Document;
 import javax.swing.*;
 
 public class Main {
+    public static JFrame regisFrame;
+
     public static void main(String[] args) {
         String user = "";
         String password = "";
@@ -28,11 +30,15 @@ public class Main {
         Document socorro = mongoClient.getDatabase("Compliance").getCollection("admin").find().first();
         System.out.println(socorro.get("login"));
 
-        JFrame frame = new JFrame("Regis");
-        frame.setContentPane(new Regis().Regis);
-        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        frame.pack();
-        frame.setVisible(true);
-
+        if(regisFrame == null) {
+            regisFrame = new JFrame("Regis");
+            regisFrame.setContentPane(new Regis().Regis);
+            regisFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+            regisFrame.pack();
+            regisFrame.setVisible(true);
+        }
+        else {
+            regisFrame.setVisible(true);
+        }
     }
 }

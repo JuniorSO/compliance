@@ -13,6 +13,7 @@ public class Regis {
     private JTextField textField1;
     private JTextArea textArea1;
     private JButton selecionarArquivosButton;
+    public static JFrame adminFrame;
 
     public Regis() {
         limparFormulárioButton.addActionListener(new ActionListener() {
@@ -24,7 +25,17 @@ public class Regis {
         entrarComoAdministradorButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                System.exit(0);
+                if(adminFrame == null) {
+                    adminFrame = new JFrame("Admin");
+                    adminFrame.setContentPane(new Admin().Admin);
+                    adminFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+                    adminFrame.pack();
+                    adminFrame.setVisible(true);
+                }
+                else {
+                    adminFrame.setVisible(true);
+                }
+                Main.regisFrame.setVisible(false);
             }
         });
     }

@@ -6,11 +6,17 @@ import com.mongodb.ServerApi;
 import com.mongodb.ServerApiVersion;
 import com.mongodb.client.MongoClient;
 import com.mongodb.client.MongoClients;
+import com.mongodb.client.MongoCollection;
 import org.bson.Document;
+import org.bson.types.ObjectId;
 
 import javax.swing.*;
+import java.time.LocalDateTime;
 
 public class Main {
+    public static JFrame regisFrame;
+    private static MongoCollection<Document> regisCollection;
+
     public static void main(String[] args) {
         String user = "";
         String password = "";
@@ -24,15 +30,25 @@ public class Main {
                 .build();
 
         MongoClient mongoClient = MongoClients.create(settings);
+        regisCollection = mongoClient.getDatabase("Compliance").getCollection("regis");
 
-        Document socorro = mongoClient.getDatabase("Compliance").getCollection("admin").find().first();
-        System.out.println(socorro.get("login"));
+        if(regisFrame == null) {
+            regisFrame = new JFrame("Regis");
+            regisFrame.setContentPane(new Regis().Regis);
+            regisFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+            regisFrame.pack();
+        }
+        regisFrame.setVisible(true);
+    }
 
-        JFrame frame = new JFrame("Regis");
-        frame.setContentPane(new Regis().Regis);
-        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        frame.pack();
-        frame.setVisible(true);
+    public static void insertDoc(String autor, String assunto, String desc) {
+        Document doc = new Document("_id", new ObjectId())
+                .append("autor", autor)
+                .append("assunto", assunto)
+                .append("descricao", desc)
+                .append("data", LocalDateTime.now());
 
+        regisCollection.insertOne(doc);
+        JOptionPane.showMessageDialog(null, "Registro Enviado!");
     }
 }

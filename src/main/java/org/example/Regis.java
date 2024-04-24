@@ -35,7 +35,7 @@ public class Regis {
         });
 
         btnEntrarAdmin.addActionListener(e -> {
-            if(adminFrame == null) {
+            if (adminFrame == null) {
                 adminFrame = new JFrame("Admin");
                 adminFrame.setContentPane(new Admin().Admin);
                 adminFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);

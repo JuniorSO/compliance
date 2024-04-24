@@ -12,10 +12,12 @@ import org.bson.types.ObjectId;
 
 import javax.swing.*;
 import java.time.LocalDateTime;
+import java.util.Base64;
 
 public class Main {
     public static JFrame regisFrame;
     private static MongoCollection<Document> regisCollection;
+    private static MongoCollection<Document> adminCollection;
 
     public static void main(String[] args) {
         String user = "";
@@ -31,6 +33,7 @@ public class Main {
 
         MongoClient mongoClient = MongoClients.create(settings);
         regisCollection = mongoClient.getDatabase("Compliance").getCollection("regis");
+        adminCollection = mongoClient.getDatabase("Compliance").getCollection("admin");
 
         if(regisFrame == null) {
             regisFrame = new JFrame("Regis");
@@ -50,5 +53,21 @@ public class Main {
 
         regisCollection.insertOne(doc);
         JOptionPane.showMessageDialog(null, "Registro Enviado!");
+    }
+
+    public static boolean getLogin(String login, String password) {
+        for(int i = 0; i < 3; i++) {
+            password = Base64.getEncoder().encodeToString(password.getBytes());
+        }
+        Document doc = new Document().append("login", login).append("senha", password);
+        try {
+            Document loginAndPassword = adminCollection.find(doc).first();
+
+            return loginAndPassword.get("login").equals(login) && loginAndPassword.get("senha").equals(password);
+        }
+        catch (NullPointerException e) {
+            JOptionPane.showMessageDialog(null, "Login ou senha incorretos.");
+            return false;
+        }
     }
 }

@@ -2,6 +2,9 @@ package org.example;
 
 import javax.swing.*;
 
+import static org.example.Main.regisFrame;
+import static org.example.Regis.adminFrame;
+
 public class Admin {
     public JPanel Admin;
     private JTextField fldLogin;
@@ -12,15 +15,15 @@ public class Admin {
 
     public Admin() {
         btnVoltar.addActionListener(e -> {
-            if(Main.regisFrame == null) {
-                Main.regisFrame = new JFrame("Admin");
-                Main.regisFrame.setContentPane(new Admin().Admin);
-                Main.regisFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-                Main.regisFrame.pack();
+            if(regisFrame == null) {
+                regisFrame = new JFrame("Admin");
+                regisFrame.setContentPane(new Admin().Admin);
+                regisFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+                regisFrame.pack();
             }
-            Main.regisFrame.setVisible(true);
+            regisFrame.setVisible(true);
 
-            Regis.adminFrame.setVisible(false);
+            adminFrame.setVisible(false);
         });
         btnEntrar.addActionListener(e -> {
             if(fldSenha.getText().isEmpty() || fldLogin.getText().isEmpty()) {
@@ -40,7 +43,7 @@ public class Admin {
                     }
                     tableFrame.setVisible(true);
 
-                    Regis.adminFrame.setVisible(false);
+                    adminFrame.setVisible(false);
                 }
             }
         });

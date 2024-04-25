@@ -4,9 +4,11 @@ import com.mongodb.ConnectionString;
 import com.mongodb.MongoClientSettings;
 import com.mongodb.ServerApi;
 import com.mongodb.ServerApiVersion;
+import com.mongodb.client.FindIterable;
 import com.mongodb.client.MongoClient;
 import com.mongodb.client.MongoClients;
 import com.mongodb.client.MongoCollection;
+import com.mongodb.client.model.Filters;
 import org.bson.Document;
 import org.bson.types.ObjectId;
 
@@ -69,5 +71,17 @@ public class Main {
             JOptionPane.showMessageDialog(null, "Login ou senha incorretos.");
             return false;
         }
+    }
+
+    public static FindIterable<Document> getDocs() {
+        return regisCollection.find();
+    }
+
+    public static long countDocs() {
+        return regisCollection.countDocuments();
+    }
+
+    public static void deleteDoc(ObjectId id) {
+        regisCollection.deleteOne(Filters.eq("_id", id));
     }
 }

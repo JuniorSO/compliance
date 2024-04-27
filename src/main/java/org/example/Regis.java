@@ -3,8 +3,11 @@ package org.example;
 import javax.swing.*;
 import java.util.Objects;
 
+import static org.example.Main.getRegisFrame;
+import static org.example.Main.insertDoc;
+
 public class Regis {
-    public JPanel Regis;
+    private JPanel Regis;
     private JButton btnLimparForm;
     private JButton btnEnviarForm;
     private JButton btnEntrarAdmin;
@@ -12,8 +15,10 @@ public class Regis {
     private JTextField fldAutor;
     private JTextArea areaDesc;
     private JButton btnSelecionarArquivo;
-    private JLabel arqSelecLabel;
-    public static JFrame adminFrame;
+    private JButton btnRemoverArquivo;
+    private JLabel lblArqSelec;
+    private static JFrame adminFrame;
+    private final JFileChooser chooser = new JFileChooser();
 
     public Regis() {
         String[] assuntos = {
@@ -28,22 +33,18 @@ public class Regis {
         };
         populateAssuntoCombo(assuntos);
 
-        btnLimparForm.addActionListener(e -> {
-            fldAutor.setText("");
-            cmbAssunto.setSelectedItem("Benefícios e Remuneração");
-            areaDesc.setText("");
-        });
+        btnLimparForm.addActionListener(e -> limparForm());
 
         btnEntrarAdmin.addActionListener(e -> {
             if (adminFrame == null) {
                 adminFrame = new JFrame("Admin");
-                adminFrame.setContentPane(new Admin().Admin);
+                adminFrame.setContentPane(new Admin().getAdminPanel());
                 adminFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
                 adminFrame.pack();
             }
             adminFrame.setVisible(true);
 
-            Main.regisFrame.setVisible(false);
+            getRegisFrame().setVisible(false);
         });
 
         btnEnviarForm.addActionListener(e -> {
@@ -52,17 +53,58 @@ public class Regis {
             }
             else {
                 if(fldAutor.getText().isEmpty()) {
-                    Main.insertDoc("Anônimo(a)", Objects.requireNonNull(cmbAssunto.getSelectedItem()).toString(), areaDesc.getText());
-                } else {
-                    Main.insertDoc(fldAutor.getText(), Objects.requireNonNull(cmbAssunto.getSelectedItem()).toString(), areaDesc.getText());
+                    if(chooser.getSelectedFile() != null) {
+                        insertDoc("Anônimo(a)", Objects.requireNonNull(cmbAssunto.getSelectedItem()).toString(), areaDesc.getText(), chooser.getSelectedFile());
+                    }
+                    else {
+                        insertDoc("Anônimo(a)", Objects.requireNonNull(cmbAssunto.getSelectedItem()).toString(), areaDesc.getText(), null);
+                    }
+
                 }
+                else {
+                    if(chooser.getSelectedFile() != null) {
+                        insertDoc(fldAutor.getText(), Objects.requireNonNull(cmbAssunto.getSelectedItem()).toString(), areaDesc.getText(), chooser.getSelectedFile());
+                    }
+                    else {
+                        insertDoc(fldAutor.getText(), Objects.requireNonNull(cmbAssunto.getSelectedItem()).toString(), areaDesc.getText(), null);
+                    }
+                }
+
+                limparForm();
             }
         });
+
+        btnSelecionarArquivo.addActionListener(e ->  {
+            int returnValue = chooser.showOpenDialog(null);
+            if (returnValue == JFileChooser.APPROVE_OPTION) {
+                lblArqSelec.setText("Arquivo Selecionado: " + chooser.getSelectedFile().getName());
+            }
+        });
+
+        btnRemoverArquivo.addActionListener(e -> {
+            chooser.setSelectedFile(null);
+            lblArqSelec.setText("Arquivo Selecionado:");
+        });
+
     }
 
     public void populateAssuntoCombo(String[] arr) {
         for (String s : arr) {
             cmbAssunto.addItem(s);
         }
+    }
+
+    public void limparForm() {
+        fldAutor.setText("");
+        cmbAssunto.setSelectedItem("Benefícios e Remuneração");
+        areaDesc.setText("");
+    }
+
+    public JPanel getRegisPanel() {
+        return Regis;
+    }
+
+    public static JFrame getAdminFrame() {
+        return adminFrame;
     }
 }

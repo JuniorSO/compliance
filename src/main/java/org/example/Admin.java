@@ -2,28 +2,22 @@ package org.example;
 
 import javax.swing.*;
 
-import static org.example.Main.regisFrame;
-import static org.example.Regis.adminFrame;
+import static org.example.Main.getRegisFrame;
+import static org.example.Regis.getAdminFrame;
 
 public class Admin {
-    public JPanel Admin;
+    private JPanel Admin;
     private JTextField fldLogin;
     private JTextField fldSenha;
     private JButton btnVoltar;
     private JButton btnEntrar;
-    public static JFrame tableFrame;
+    private static JFrame tableFrame;
 
     public Admin() {
         btnVoltar.addActionListener(e -> {
-            if(regisFrame == null) {
-                regisFrame = new JFrame("Admin");
-                regisFrame.setContentPane(new Admin().Admin);
-                regisFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-                regisFrame.pack();
-            }
-            regisFrame.setVisible(true);
+            getRegisFrame().setVisible(true);
 
-            adminFrame.setVisible(false);
+            getAdminFrame().setVisible(false);
         });
         btnEntrar.addActionListener(e -> {
             if(fldSenha.getText().isEmpty() || fldLogin.getText().isEmpty()) {
@@ -37,15 +31,24 @@ public class Admin {
 
                     if(tableFrame == null) {
                         tableFrame = new JFrame("Table");
-                        tableFrame.setContentPane(new Table().Table);
+                        Table tabela = new Table();
+                        tableFrame.setContentPane(tabela.getTablePanel());
                         tableFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
                         tableFrame.pack();
                     }
                     tableFrame.setVisible(true);
 
-                    adminFrame.setVisible(false);
+                    getAdminFrame().setVisible(false);
                 }
             }
         });
+    }
+
+    public JPanel getAdminPanel() {
+        return Admin;
+    }
+
+    public static JFrame getTableFrame() {
+        return tableFrame;
     }
 }

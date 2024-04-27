@@ -1,0 +1,30 @@
+<component name="ArtifactManager">
+  <artifact type="jar" name="Compliance:jar">
+    <output-path>$PROJECT_DIR$/out/artifacts/Compliance_jar</output-path>
+    <root id="archive" name="Compliance.jar">
+      <element id="directory" name="META-INF">
+        <element id="file-copy" path="$PROJECT_DIR$/META-INF/MANIFEST.MF" />
+      </element>
+      <element id="module-output" name="Compliance" />
+      <element id="extracted-dir" path="$MAVEN_REPOSITORY$/org/mongodb/bson/5.0.1/bson-5.0.1.jar" path-in-jar="/" />
+      <element id="extracted-dir" path="$MAVEN_REPOSITORY$/com/cloudinary/cloudinary-http44/1.38.0/cloudinary-http44-1.38.0.jar" path-in-jar="/" />
+      <element id="extracted-dir" path="$MAVEN_REPOSITORY$/org/mongodb/bson-record-codec/5.0.1/bson-record-codec-5.0.1.jar" path-in-jar="/" />
+      <element id="extracted-dir" path="$MAVEN_REPOSITORY$/org/slf4j/slf4j-api/1.7.12/slf4j-api-1.7.12.jar" path-in-jar="/" />
+      <element id="extracted-dir" path="$MAVEN_REPOSITORY$/javax/servlet/jsp-api/2.0/jsp-api-2.0.jar" path-in-jar="/" />
+      <element id="extracted-dir" path="$MAVEN_REPOSITORY$/org/mongodb/mongodb-driver-sync/5.0.1/mongodb-driver-sync-5.0.1.jar" path-in-jar="/" />
+      <element id="extracted-dir" path="$MAVEN_REPOSITORY$/org/apache/httpcomponents/httpclient/4.4/httpclient-4.4.jar" path-in-jar="/" />
+      <element id="extracted-dir" path="$MAVEN_REPOSITORY$/org/apache/commons/commons-lang3/3.1/commons-lang3-3.1.jar" path-in-jar="/" />
+      <element id="extracted-dir" path="$MAVEN_REPOSITORY$/io/github/cdimascio/dotenv-java/2.2.4/dotenv-java-2.2.4.jar" path-in-jar="/" />
+      <element id="extracted-dir" path="$MAVEN_REPOSITORY$/javax/servlet/servlet-api/2.4/servlet-api-2.4.jar" path-in-jar="/" />
+      <element id="extracted-dir" path="$MAVEN_REPOSITORY$/org/apache/httpcomponents/httpmime/4.4/httpmime-4.4.jar" path-in-jar="/" />
+      <element id="extracted-dir" path="$MAVEN_REPOSITORY$/org/slf4j/slf4j-simple/1.7.12/slf4j-simple-1.7.12.jar" path-in-jar="/" />
+      <element id="extracted-dir" path="$MAVEN_REPOSITORY$/org/apache/httpcomponents/httpcore/4.4/httpcore-4.4.jar" path-in-jar="/" />
+      <element id="extracted-dir" path="$MAVEN_REPOSITORY$/com/cloudinary/cloudinary-taglib/1.38.0/cloudinary-taglib-1.38.0.jar" path-in-jar="/" />
+      <element id="extracted-dir" path="$MAVEN_REPOSITORY$/org/mongodb/mongodb-driver-core/5.0.1/mongodb-driver-core-5.0.1.jar" path-in-jar="/" />
+      <element id="extracted-dir" path="$MAVEN_REPOSITORY$/commons-codec/commons-codec/1.9/commons-codec-1.9.jar" path-in-jar="/" />
+      <element id="extracted-dir" path="$MAVEN_REPOSITORY$/commons-logging/commons-logging/1.2/commons-logging-1.2.jar" path-in-jar="/" />
+      <element id="extracted-dir" path="$MAVEN_REPOSITORY$/com/cloudinary/cloudinary-core/1.38.0/cloudinary-core-1.38.0.jar" path-in-jar="/" />
+      <element id="file-copy" path="$PROJECT_DIR$/.env" />
+    </root>
+  </artifact>
+</component>

@@ -1,6 +1,7 @@
 package org.example;
 
 import javax.swing.*;
+import javax.swing.filechooser.FileNameExtensionFilter;
 import java.util.Objects;
 
 import static org.example.Main.getRegisFrame;
@@ -75,6 +76,9 @@ public class Regis {
         });
 
         btnSelecionarArquivo.addActionListener(e ->  {
+            chooser.setAcceptAllFileFilterUsed(false);
+            FileNameExtensionFilter filter = new FileNameExtensionFilter("Imagens PNG, JPG ou Vídeos MP4", "png", "jpg", "mp4");
+            chooser.addChoosableFileFilter(filter);
             int returnValue = chooser.showOpenDialog(null);
             if (returnValue == JFileChooser.APPROVE_OPTION) {
                 lblArqSelec.setText("Arquivo Selecionado: " + chooser.getSelectedFile().getName());

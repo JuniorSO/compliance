@@ -6,7 +6,7 @@ import org.bson.types.ObjectId;
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
 
-import static org.example.Admin.getTableFrame;
+import static org.example.Admin.*;
 import static org.example.Main.*;
 
 public class Table {
@@ -26,65 +26,77 @@ public class Table {
             getRegisFrame().setVisible(true);
 
             getTableFrame().setVisible(false);
+            setTableFrameNull();
         });
 
         btnDeletarRegistro.addActionListener(e -> {
-            ObjectId id = new ObjectId(tblRegis.getValueAt(tblRegis.getSelectedRow(), 0).toString());
-            String link;
-            String tipo;
-            Document doc;
-
             try {
-                doc = getSpecificDoc(id);
-
-                if(doc.get("midia") != null) {
-                    link = doc.get("midia").toString();
-                    tipo = doc.get("tipo_midia").toString();
-                }
-                else {
-                    link = null;
-                    tipo = null;
-                }
+                ObjectId id = new ObjectId(tblRegis.getValueAt(tblRegis.getSelectedRow(), 0).toString());
+                String link;
+                String tipo;
+                Document doc;
 
                 try {
-                    deleteDoc(id, link, tipo);
-                    model.removeRow(tblRegis.getSelectedRow());
-                    JOptionPane.showMessageDialog(null, "Registro excluído.");
+                    doc = getSpecificDoc(id);
+
+                    if(doc.get("midia") != null) {
+                        link = doc.get("midia").toString();
+                        tipo = doc.get("tipo_midia").toString();
+                    }
+                    else {
+                        link = null;
+                        tipo = null;
+                    }
+
+                    try {
+                        deleteDoc(id, link, tipo);
+                        model.removeRow(tblRegis.getSelectedRow());
+                        JOptionPane.showMessageDialog(null, "Registro excluído.");
+                    }
+                    catch (NullPointerException ex) {
+                        JOptionPane.showMessageDialog(null, "Registro já excluído.");
+                        model.removeRow(tblRegis.getSelectedRow());
+                    }
+                    catch (Exception ex) {
+                        JOptionPane.showMessageDialog(null, "Erro ao excluir registro.");
+                    }
                 }
                 catch (NullPointerException ex) {
                     JOptionPane.showMessageDialog(null, "Registro já excluído.");
                     model.removeRow(tblRegis.getSelectedRow());
                 }
-                catch (Exception ex) {
-                    JOptionPane.showMessageDialog(null, "Erro ao excluir registro.");
-                }
             }
-            catch (NullPointerException ex) {
-                JOptionPane.showMessageDialog(null, "Registro já excluído.");
-                model.removeRow(tblRegis.getSelectedRow());
+            catch (ArrayIndexOutOfBoundsException ex) {
+                JOptionPane.showMessageDialog(null, "Selecione um registro.");
             }
         });
 
         btnVisualizarDetalhes.addActionListener(e -> {
-            ObjectId id = new ObjectId(tblRegis.getValueAt(tblRegis.getSelectedRow(), 0).toString());
-
             try {
-                Document doc = getSpecificDoc(id);
-                SpecificRegis specificRegis;
+                ObjectId id = new ObjectId(tblRegis.getValueAt(tblRegis.getSelectedRow(), 0).toString());
 
-                specificRegisFrame = new JFrame("Registro " + id);
-                specificRegis = new SpecificRegis(doc, model, tblRegis);
-                specificRegisFrame.setContentPane(specificRegis.getSpecificRegisPanel());
-                specificRegisFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-                specificRegisFrame.pack();
+                try {
+                    Document doc = getSpecificDoc(id);
+                    SpecificRegis specificRegis;
 
-                specificRegisFrame.setVisible(true);
+                    specificRegisFrame = new JFrame("Registro " + id);
+                    specificRegis = new SpecificRegis(doc, model, tblRegis);
+                    specificRegisFrame.setContentPane(specificRegis.getSpecificRegisPanel());
+                    specificRegisFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+                    specificRegisFrame.pack();
 
-                getTableFrame().setVisible(false);
+                    specificRegisFrame.setVisible(true);
+
+                    getTableFrame().setVisible(false);
+                }
+                catch (NullPointerException ex) {
+                    JOptionPane.showMessageDialog(null, "Registro não existe.");
+                    model.removeRow(tblRegis.getSelectedRow());
+                }
+
             }
-            catch (NullPointerException ex) {
-                JOptionPane.showMessageDialog(null, "Registro não existe.");
-                model.removeRow(tblRegis.getSelectedRow());
+            catch (ArrayIndexOutOfBoundsException ex) {
+                JOptionPane.showMessageDialog(null, "Selecione um registro.");
             }
         });
 
@@ -116,6 +128,11 @@ public class Table {
         tblRegis.getColumnModel().getColumn(3).setPreferredWidth(100);
         tblRegis.getColumnModel().getColumn(3).setMaxWidth(100);
         tblRegis.setAutoResizeMode(JTable.AUTO_RESIZE_LAST_COLUMN);
+
+        tblRegis.setRowSelectionAllowed(true);
+        tblRegis.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
+
+        tblRegis.setDefaultEditor(Object.class, null);
     }
 
     public JPanel getTablePanel() {

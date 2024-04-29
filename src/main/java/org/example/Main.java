@@ -18,8 +18,9 @@ import org.bson.types.ObjectId;
 import javax.swing.*;
 import java.io.File;
 import java.io.IOException;
-import java.time.LocalDateTime;
+import java.text.SimpleDateFormat;
 import java.util.Base64;
+import java.util.Date;
 import java.util.Map;
 
 public class Main {
@@ -43,13 +44,13 @@ public class Main {
     );
 
     public static void main(String[] args) {
+        try {
+            UIManager.setLookAndFeel("com.sun.java.swing.plaf.windows.WindowsLookAndFeel");
+        } catch(Exception ignored){}
+
         cloudinary.config.secure = true;
 
-        String user = "";
-        String password = "";
-        String connection = "";
-
-        ConnectionString connectionString = new ConnectionString("mongodb+srv://" + user + ":" + password + connection);
+        ConnectionString connectionString = new ConnectionString(dotenv.get("MONGODB_CONNECTION"));
 
         MongoClientSettings settings = MongoClientSettings.builder()
                 .applyConnectionString(connectionString)
@@ -60,7 +61,7 @@ public class Main {
         regisCollection = mongoClient.getDatabase("Compliance").getCollection("regis");
         adminCollection = mongoClient.getDatabase("Compliance").getCollection("admin");
 
-        regisFrame = new JFrame("Regis");
+        regisFrame = new JFrame("Enviar Registro");
         regisFrame.setContentPane(new Regis().getRegisPanel());
         regisFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         regisFrame.pack();
@@ -97,11 +98,15 @@ public class Main {
             tipo = null;
         }
 
+        SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy hh:mm");
+        Date data = new Date();
+        String dataStr = sdf.format(data);
+
         Document doc = new Document("_id", new ObjectId())
                 .append("autor", autor)
                 .append("assunto", assunto)
                 .append("descricao", desc)
-                .append("data", LocalDateTime.now())
+                .append("data", dataStr)
                 .append("midia", link)
                 .append("tipo_midia", tipo);
 

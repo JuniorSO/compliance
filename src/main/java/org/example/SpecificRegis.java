@@ -21,11 +21,13 @@ public class SpecificRegis {
     private JButton btnAbrirMidia;
     private JLabel lblAutor;
     private JLabel lblAssunto;
+    private JLabel lblData;
 
     public SpecificRegis(Document doc, DefaultTableModel model, JTable tblRegis) {
         lblAutor.setText(doc.get("autor").toString());
         lblAssunto.setText(doc.get("assunto").toString());
         areaDesc.setText(doc.get("descricao").toString());
+        lblData.setText(doc.get("data").toString());
         if(doc.get("midia") != null) {
             btnAbrirMidia.setVisible(true);
         }

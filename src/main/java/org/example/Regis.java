@@ -38,7 +38,7 @@ public class Regis {
 
         btnEntrarAdmin.addActionListener(e -> {
             if (adminFrame == null) {
-                adminFrame = new JFrame("Admin");
+                adminFrame = new JFrame("Entrar como Administrador");
                 adminFrame.setContentPane(new Admin().getAdminPanel());
                 adminFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
                 adminFrame.pack();
@@ -102,6 +102,8 @@ public class Regis {
         fldAutor.setText("");
         cmbAssunto.setSelectedItem("Benefícios e Remuneração");
         areaDesc.setText("");
+        chooser.setSelectedFile(null);
+        lblArqSelec.setText("Arquivo Selecionado:");
     }
 
     public JPanel getRegisPanel() {
